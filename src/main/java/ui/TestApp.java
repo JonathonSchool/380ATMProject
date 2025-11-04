@@ -1,6 +1,8 @@
-import com.zaxxer.hikari.HikariDataSource;
+package ui;
 
-import java.sql.Connection;
+import com.zaxxer.hikari.HikariDataSource;
+import database.DatabaseManager;
+
 import java.sql.SQLException;
 
 public class TestApp {

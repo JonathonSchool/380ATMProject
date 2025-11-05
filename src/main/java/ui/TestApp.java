@@ -2,8 +2,11 @@ package ui;
 
 import com.zaxxer.hikari.HikariDataSource;
 import database.DatabaseManager;
+import domain.Transaction;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestApp {
     private static final String JDBC_URL =
@@ -12,8 +15,10 @@ public class TestApp {
     public static void main(String[] args) throws SQLException {
         HikariDataSource ds = getDataSource();
         DatabaseManager manager = new DatabaseManager(ds);
-        boolean pinVerification = manager.verifyPIN(4852698725513020L, 996);
-        System.out.println("pinVerification = " + pinVerification);
+
+        ArrayList<String> txnParams = manager.getTransactions(5768860368453464L);
+        List<Transaction> txns = txnParams.stream().map(Transaction::new).toList();
+        txns.forEach(System.out::println);
     }
 
     public static HikariDataSource getDataSource() {

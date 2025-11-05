@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class DatabaseManager {
@@ -16,6 +17,11 @@ public class DatabaseManager {
         this.ds = ds;
     }
 
+    /**
+     * Returns true if the provided card number and PIN match, false otherwise.
+     * Throws an IllegalArgumentException if the card number does not exist,
+     * be sure to use inside a try-catch so it doesn't crash the ATM.
+     */
     public boolean verifyPIN(long cardNumber, int pin) throws SQLException {
         try (Connection conn = ds.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement("select * from accounts where card_num = ?");
@@ -66,10 +72,10 @@ public class DatabaseManager {
             int primaryKey = getPrimaryKey(cardNumber);
 
             PreparedStatement insertStmt = conn.prepareStatement
-                    ("insert into transactions (amount, account, transaction_type, timestamp) values (?, ?, ?, ?)");
+                    ("insert into transactions (amount, fk_account_id, transaction_type, timestamp) values (?, ?, ?, ?)");
             insertStmt.setDouble(1, amount);
             insertStmt.setInt(2, primaryKey);
-            insertStmt.setString(3, "withdrawal");
+            insertStmt.setString(3, "WITHDRAWAL");
             insertStmt.setObject(4, LocalDateTime.now());
             insertStmt.executeUpdate();
 
@@ -92,10 +98,10 @@ public class DatabaseManager {
             int primaryKey = getPrimaryKey(cardNumber);
 
             PreparedStatement insertStmt = conn.prepareStatement
-                    ("insert into transactions (amount, account, transaction_type, timestamp) values (?, ?, ?, ?)");
+                    ("insert into transactions (amount, fk_account_id, transaction_type, timestamp) values (?, ?, ?, ?)");
             insertStmt.setDouble(1, amount);
             insertStmt.setInt(2, primaryKey);
-            insertStmt.setString(3, "deposit");
+            insertStmt.setString(3, "DEPOSIT");
             insertStmt.setObject(4, LocalDateTime.now());
             insertStmt.executeUpdate();
 
@@ -105,6 +111,10 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * For testing purposes. Returns a random card number so that
+     * you don't have to copy a card number from the table each time.
+     */
     public long getRandomCardNumber() throws SQLException {
         try (Connection conn = ds.getConnection()) {
 
@@ -125,6 +135,44 @@ public class DatabaseManager {
             result.next();
             return result.getLong("card_num");
         }
+    }
+
+    /**
+     * Returns an ArrayList of Strings containing the parameters
+     * for the Transaction constructor in the format
+     * "transaction_type amount card_number timestamp"
+     * for which there is a constructor Transaction(String params)
+     */
+    public ArrayList<String> getTransactions(long cardNumber) throws SQLException {
+        ArrayList<String> result = new ArrayList<>();
+
+        try (Connection conn = ds.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("select * from transactions where fk_account_id = ?");
+            stmt.setLong(1, getPrimaryKey(cardNumber));
+            ResultSet results = stmt.executeQuery();
+
+            if (!results.next()) {
+                // If account has no transactions, return an empty ArrayList
+                return result;
+            }
+
+            do {
+                StringBuilder sb = new StringBuilder();
+
+                sb.append(results.getString("transaction_type")).append(" ");
+
+                sb.append(results.getDouble("amount")).append(" ");
+
+                sb.append(cardNumber).append(" ");
+
+                LocalDateTime timestamp = results.getObject("timestamp", LocalDateTime.class);
+                sb.append(timestamp);
+
+                result.add(sb.toString());
+            } while (results.next());
+        }
+
+        return result;
     }
 
 }

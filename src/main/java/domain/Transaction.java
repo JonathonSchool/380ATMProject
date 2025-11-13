@@ -26,12 +26,31 @@ public class Transaction {
      * which is the format of the Strings provided by getTransactions()
      */
     public Transaction(String params) {
-        String[] parts = params.split(" ");
-        this(TransactionType.valueOf(parts[0].toUpperCase()),
-            Double.parseDouble(parts[1]),
-            Long.parseLong(parts[2]),
-            LocalDateTime.parse(parts[3]));
+        this(parseType(params), parseAmount(params), parseId(params), parseDate(params));
     }
+
+    private static TransactionType parseType(String params) {
+        String[] parts = params.split(" ");
+        if (parts.length < 4) throw new IllegalArgumentException("Not enough parts");
+        return TransactionType.valueOf(parts[0].toUpperCase());
+    }
+
+    private static double parseAmount(String params) {
+        String[] parts = params.split(" ");
+        return Double.parseDouble(parts[1]);
+    }
+
+    private static long parseId(String params) {
+        String[] parts = params.split(" ");
+        return Long.parseLong(parts[2]);
+    }
+
+    private static LocalDateTime parseDate(String params) {
+        String[] parts = params.split(" ");
+        return LocalDateTime.parse(parts[3]);
+    }
+
+
 
     public enum TransactionType {
         DEPOSIT, WITHDRAWAL;

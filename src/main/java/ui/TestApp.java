@@ -16,9 +16,8 @@ public class TestApp {
         HikariDataSource ds = getDataSource();
         DatabaseManager manager = new DatabaseManager(ds);
 
-        ArrayList<String> txnParams = manager.getTransactions(5768860368453464L);
-        List<Transaction> txns = txnParams.stream().map(Transaction::new).toList();
-        txns.forEach(System.out::println);
+        boolean isAdmin = manager.isAdmin(3176430787586701L);
+        System.out.println("isAdmin = " + isAdmin);
     }
 
     public static HikariDataSource getDataSource() {

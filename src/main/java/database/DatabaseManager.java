@@ -175,4 +175,16 @@ public class DatabaseManager {
         return result;
     }
 
+    public boolean isAdmin(long cardNumber) throws SQLException {
+        try (Connection conn = ds.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("select * from accounts where card_num = ?");
+            stmt.setLong(1, cardNumber);
+            ResultSet result = stmt.executeQuery();
+            if (!result.next()) {
+                throw new IllegalArgumentException("Card number " + cardNumber + " is not valid.");
+            }
+            return result.getBoolean("is_admin");
+        }
+    }
+
 }

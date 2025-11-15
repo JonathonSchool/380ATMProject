@@ -2,6 +2,7 @@ package ui;
 
 import com.zaxxer.hikari.HikariDataSource;
 import database.DatabaseManager;
+import domain.Account;
 import domain.Transaction;
 
 import java.sql.SQLException;
@@ -16,12 +17,16 @@ public class TestApp {
         HikariDataSource ds = getDataSource();
         DatabaseManager manager = new DatabaseManager(ds);
 
-        boolean isAdmin = manager.isAdmin(3176430787586701L);
+        boolean isAdmin = manager.isAdmin(3997395871580161L);
         System.out.println("isAdmin = " + isAdmin);
 
-        ArrayList<String> params = manager.getTransactions(5768860368453464L);
-        List<Transaction> txns = params.stream().map(Transaction::new).toList();
+        ArrayList<String> txnParams = manager.getTransactions(5768860368453464L);
+        List<Transaction> txns = txnParams.stream().map(Transaction::new).toList();
         System.out.println(txns.getLast().compareTo(txns.getFirst()));
+
+        String accountParams = manager.getAccountDetails(3997395871580161L);
+        Account account = new Account(accountParams);
+        System.out.println(account);
     }
 
     public static HikariDataSource getDataSource() {

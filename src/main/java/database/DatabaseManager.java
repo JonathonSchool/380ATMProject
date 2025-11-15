@@ -2,10 +2,7 @@ package database;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Random;
@@ -56,6 +53,34 @@ public class DatabaseManager {
                 throw new IllegalArgumentException("Card number " + cardNumber + " is not valid.");
             }
             return result.getDouble("balance");
+        }
+    }
+
+    /**
+     * Takes a card number, returns an ArrayList of Strings
+     * that are formatted to contain the information necessary
+     * for the Account constructor.
+     */
+    public String getAccountDetails(long cardNumber) throws SQLException {
+        try (Connection conn = ds.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("select * from accounts where card_num = ?");
+            stmt.setLong(1, cardNumber);
+            ResultSet result = stmt.executeQuery();
+
+            if (!result.next()) {
+                throw new IllegalArgumentException("Card number " + cardNumber + " is not valid.");
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(cardNumber).append(" ")
+                    .append(result.getInt("pin")).append(" ")
+                    .append(result.getString("first_name")).append(" ")
+                    .append(result.getString("last_name")).append(" ")
+                    .append(result.getBoolean("our_branch")).append(" ")
+                    .append(result.getDouble("balance")).append(" ")
+                    .append(result.getBoolean("is_admin"));
+
+            return sb.toString();
         }
     }
 

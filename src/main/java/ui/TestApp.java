@@ -18,6 +18,10 @@ public class TestApp {
 
         boolean isAdmin = manager.isAdmin(3176430787586701L);
         System.out.println("isAdmin = " + isAdmin);
+
+        ArrayList<String> params = manager.getTransactions(5768860368453464L);
+        List<Transaction> txns = params.stream().map(Transaction::new).toList();
+        System.out.println(txns.getLast().compareTo(txns.getFirst()));
     }
 
     public static HikariDataSource getDataSource() {

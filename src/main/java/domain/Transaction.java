@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Objects;
 
-public class Transaction {
+public class Transaction implements Comparable<Transaction> {
     private final TransactionType type;
     private final double amount;
     private final long cardNumber;
@@ -78,7 +78,19 @@ public class Transaction {
         return result;
     }
 
+    @Override
     public String toString() {
         return String.format( getType() + ": $%.2f on " + getTimestampFormatted() , getAmount());
+    }
+
+    /**
+     * Transactions will only ever be compared to
+     * within the same account, so they are compared
+     * by timestamp so that their natural ordering
+     * is chronological.
+     */
+    @Override
+    public int compareTo(Transaction other) {
+        return this.timestamp.compareTo(other.timestamp);
     }
 }

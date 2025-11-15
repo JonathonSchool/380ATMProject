@@ -1,5 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Account {
     private long cardNumber;
     private int pin;
@@ -7,6 +10,7 @@ public class Account {
     private boolean ourBranch;
     private double balance;
     private boolean isAdmin;
+    private List<Transaction> transactionList;
 
     public Account(long cardNumber, int pin, String name, boolean ourBranch, double balance, boolean isAdmin) {
         this.cardNumber = cardNumber;
@@ -19,12 +23,21 @@ public class Account {
 
     public Account(String params) {
         String[] parts = params.split(" ");
-        this(Long.parseLong(parts[0]),
-                Integer.parseInt(parts[1]),
-                parts[2] + " " + parts[3],
-                Boolean.parseBoolean(parts[4]),
-                Double.parseDouble(parts[5]),
-                Boolean.parseBoolean(parts[6]));
+        this(Long.parseLong(parts[0]),              // cardNumber
+                Integer.parseInt(parts[1]),         // pin
+                parts[2] + " " + parts[3],          // name
+                Boolean.parseBoolean(parts[4]),     // ourBranch
+                Double.parseDouble(parts[5]),       // balance
+                Boolean.parseBoolean(parts[6]));    // isAdmin
+    }
+
+    public void createTransactionList(ArrayList<String> params) {
+        transactionList = new ArrayList<>();
+        transactionList = params.stream().map(Transaction::new).toList();
+    }
+
+    public void printTransactions() {
+        transactionList.forEach(System.out::println);
     }
 
     public long getCardNumber() {

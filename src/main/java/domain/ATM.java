@@ -99,6 +99,10 @@ public class ATM {
 
         double amount = calculateTransactionAmount(bills, coins);
 
+        if (amount > currentAccount.getBalance()) {
+            throw new InsufficientCashException("User has insufficient cash for this withdrawal.");
+        }
+
         try {
             manager.withdraw(currentAccount.getCardNumber(), amount);
             updateAccount();

@@ -21,6 +21,9 @@ public class Account {
         this.isAdmin = isAdmin;
     }
 
+    /*  Use getAccountDetails() in DatabaseManager to make an
+        Account with this constructor.
+     */
     public Account(String params) {
         String[] parts = params.split(" ");
         this(Long.parseLong(parts[0]),              // cardNumber
@@ -60,7 +63,9 @@ public class Account {
         return balance;
     }
 
-    public boolean isAdmin() { return isAdmin; }
+    public boolean isAdmin() {
+        return isAdmin;
+    }
 
     @Override
     public String toString() {

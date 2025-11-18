@@ -19,11 +19,8 @@ public class Transaction implements Comparable<Transaction> {
     }
 
     /**
-     * Since DatabaseManager.getTransactions() return an ArrayList<String>
-     * of Strings that contain the parameters for a Transaction instance,
-     * this constructor takes a String formatted as
-     * "transaction_type amount card_number timestamp"
-     * which is the format of the Strings provided by getTransactions()
+     * Use getTransactions() in DatabaseManager to construct
+     * Transactions using this constructor.
      */
     public Transaction(String params) {
         String[] parts = params.split(" ");

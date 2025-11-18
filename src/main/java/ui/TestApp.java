@@ -2,12 +2,11 @@ package ui;
 
 import com.zaxxer.hikari.HikariDataSource;
 import database.DatabaseManager;
-import domain.ATM;
-import domain.Account;
-import domain.Transaction;
+import domain.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 
 public class TestApp {
@@ -19,9 +18,27 @@ public class TestApp {
         DatabaseManager manager = new DatabaseManager(ds);
 
         ATM atm = new ATM(manager);
-        atm.setCurrentAccount(5768860368453464L);
+        atm.setCurrentAccount(3997395871580161L);
         atm.printCurrentAccount();
+        atm.printATMCash();
+        System.out.printf("%.2f\n", atm.totalMoneyInATM());
+
+        EnumMap<Cash, Integer> bills = new EnumMap<>(Cash.class);
+        bills.put(Cash.FIFTY, 5);
+        bills.put(Cash.ONE, 7);
+        EnumMap<Coin, Integer> coins = new EnumMap<>(Coin.class);
+
+        try {
+            atm.withdraw(bills, coins);
+        } catch (InsufficientCashException e) {
+            System.out.println(e.getMessage());
+        }
+
+        atm.printCurrentAccount();
+        atm.printATMCash();
+        System.out.printf("%.2f\n", atm.totalMoneyInATM());
         atm.printTransactions();
+
     }
 
     public static HikariDataSource getDataSource() {

@@ -158,13 +158,31 @@ public class ATM {
         return true;
     }
 
-    public void printATMCash() {
+    /**
+     * Returns the amount of each type of bill and coin
+     * in the ATM as a String, or if the ATM's cash has
+     * not been initialized yet, a message stating so is returned.
+     */
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+
+        if (ATMCash.isEmpty()) {
+            return "ATM currently has no cash, please initialize cash before starting operations.";
+        }
+
         for (Cash bill : ATMCash.keySet()) {
-            System.out.println(bill.name() + ": " + ATMCash.getOrDefault(bill, 0));
+            result.append(bill.name()).append(": ").append(ATMCash.getOrDefault(bill, 0));
         }
         for (Coin coin : ATMCoins.keySet()) {
-            System.out.println(coin.name() + ": " + ATMCoins.getOrDefault(coin, 0));
+            result.append(coin.name()).append(": ").append(ATMCoins.getOrDefault(coin, 0));
         }
+
+        return result.toString();
+    }
+
+    public void printATMCash() {
+        System.out.println(this.toString());
     }
 
     /**

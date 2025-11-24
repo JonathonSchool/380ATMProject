@@ -18,7 +18,6 @@ public class ATM {
         this.manager = manager;
         ATMCash = new EnumMap<>(Cash.class);
         ATMCoins = new EnumMap<>(Coin.class);
-        initializeMoney();
     }
 
     /**
@@ -172,10 +171,10 @@ public class ATM {
         }
 
         for (Cash bill : ATMCash.keySet()) {
-            result.append(bill.name()).append(": ").append(ATMCash.getOrDefault(bill, 0));
+            result.append(bill.name()).append(": ").append(ATMCash.getOrDefault(bill, 0)).append("\n");
         }
         for (Coin coin : ATMCoins.keySet()) {
-            result.append(coin.name()).append(": ").append(ATMCoins.getOrDefault(coin, 0));
+            result.append(coin.name()).append(": ").append(ATMCoins.getOrDefault(coin, 0)).append("\n");
         }
 
         return result.toString();

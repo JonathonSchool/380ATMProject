@@ -164,11 +164,11 @@ public class ATM {
      */
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-
         if (ATMCash.isEmpty()) {
             return "ATM currently has no cash, please initialize cash before starting operations.";
         }
+
+        StringBuilder result = new StringBuilder();
 
         for (Cash bill : ATMCash.keySet()) {
             result.append(bill.name()).append(": ").append(ATMCash.getOrDefault(bill, 0)).append("\n");

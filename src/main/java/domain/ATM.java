@@ -70,16 +70,11 @@ public class ATM {
      * Makes a deposit on the account represented by
      * currentAccount, using the DatabaseManager deposit method.
      */
-    public void deposit(EnumMap<Cash, Integer> bills, EnumMap<Coin, Integer> coins) {
+    public void deposit(EnumMap<Cash, Integer> bills, EnumMap<Coin, Integer> coins) throws SQLException {
         double amount = calculateTransactionAmount(bills, coins);
 
-        try {
-            manager.deposit(currentAccount.getCardNumber(), amount);
-            updateAccount();
-        } catch (SQLException e) {
-            System.out.println("Database error when depositing: " + e.getMessage());
-            return;
-        }
+        manager.deposit(currentAccount.getCardNumber(), amount);
+        updateAccount();
 
         for (Cash bill : bills.keySet()) {
             int billAmount = bills.getOrDefault(bill, 0);
@@ -91,24 +86,21 @@ public class ATM {
         }
     }
 
-    public void withdraw(EnumMap<Cash, Integer> bills, EnumMap<Coin, Integer> coins) throws InsufficientCashException {
+    public void withdraw(EnumMap<Cash, Integer> bills, EnumMap<Coin, Integer> coins) throws InsufficientCashException, SQLException {
         if (!atmHasSufficientCash(bills, coins)) {
-            throw new InsufficientCashException("ATM has insufficient cash for this withdrawal.");
+            throw new InsufficientCashException("ATM does not have enough cash to process this withdrawal, " +
+                    "please contact an administrator.");
         }
 
         double amount = calculateTransactionAmount(bills, coins);
 
         if (amount > currentAccount.getBalance()) {
-            throw new InsufficientCashException("User has insufficient cash for this withdrawal.");
+            throw new InsufficientCashException("Your account does not have enough cash to process this withdrawal.");
         }
 
-        try {
-            manager.withdraw(currentAccount.getCardNumber(), amount);
-            updateAccount();
-        } catch (SQLException e) {
-            System.out.println("Database error when withdrawing: " + e.getMessage());
-            return;
-        }
+        manager.withdraw(currentAccount.getCardNumber(), amount);
+        updateAccount();
+
 
         for (Cash bill : bills.keySet()) {
             int billAmount = bills.getOrDefault(bill, 0);
@@ -124,7 +116,7 @@ public class ATM {
      * Calculates the total dollar value of the bills
      * and coins contained in the EnumMap parameters.
      */
-    private double calculateTransactionAmount(EnumMap<Cash, Integer> bills, EnumMap<Coin, Integer> coins) {
+    public double calculateTransactionAmount(EnumMap<Cash, Integer> bills, EnumMap<Coin, Integer> coins) {
         double result = 0;
 
         for (Cash bill : bills.keySet()) {

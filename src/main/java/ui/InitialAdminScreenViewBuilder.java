@@ -10,17 +10,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-public class AdminScreenViewBuilder extends ViewBuilder {
+public class InitialAdminScreenViewBuilder extends ViewBuilder {
 
     private final Runnable setCashHandler;
     private final Runnable openAtmHandler;
-    private final Runnable closeAtmHandler;
 
-    public AdminScreenViewBuilder(Model model, Runnable setCashHandler, Runnable openAtmHandler, Runnable closeAtmHandler) {
+    public InitialAdminScreenViewBuilder(Model model, Runnable setCashHandler, Runnable openAtmHandler) {
         super(model);
         this.setCashHandler = setCashHandler;
         this.openAtmHandler = openAtmHandler;
-        this.closeAtmHandler = closeAtmHandler;
     }
 
     public Region build() {
@@ -39,7 +37,7 @@ public class AdminScreenViewBuilder extends ViewBuilder {
     }
 
     private Region adminButtonsPanel() {
-        HBox result = new HBox(10, atmCashSetButton(), openAtmButton(), closeAtmButton());
+        HBox result = new HBox(10, atmCashSetButton(), openAtmButton());
         result.setAlignment(Pos.CENTER);
         return result;
     }
@@ -52,20 +50,14 @@ public class AdminScreenViewBuilder extends ViewBuilder {
     }
 
     private Node atmCashSetButton() {
-        Button result = new Button("Reset ATM Cash");
+        Button result = new Button("Fill ATM Cash");
         result.setOnAction(evt -> setCashHandler.run());
         return result;
     }
 
     private Node openAtmButton() {
-        Button result = new Button("Repen ATM");
+        Button result = new Button("Open ATM");
         result.setOnAction(evt -> openAtmHandler.run());
-        return result;
-    }
-
-    private Node closeAtmButton() {
-        Button result = new Button("Close ATM");
-        result.setOnAction(evt -> closeAtmHandler.run());
         return result;
     }
 

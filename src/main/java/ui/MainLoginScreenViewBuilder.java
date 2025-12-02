@@ -10,11 +10,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-public class InitialLoginViewBuilder extends ViewBuilder {
+public class MainLoginScreenViewBuilder extends ViewBuilder {
 
     private final Runnable loginHandler;
 
-    public InitialLoginViewBuilder(Model model, Runnable loginHandler) {
+    public MainLoginScreenViewBuilder(Model model, Runnable loginHandler) {
         super(model);
         this.loginHandler = loginHandler;
     }
@@ -22,7 +22,7 @@ public class InitialLoginViewBuilder extends ViewBuilder {
     public Region build() {
         BorderPane result = new BorderPane();
 
-        result.setTop(new Label("Admin login required to start system"));
+        result.setTop(new Label("Welcome to Dominion Bank"));
         result.setCenter(loginPanel());
         result.setBottom(boundLabel(model.loginErrorMessageProperty()));
 

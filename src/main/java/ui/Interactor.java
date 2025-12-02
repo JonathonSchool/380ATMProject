@@ -159,6 +159,7 @@ public class Interactor {
         model.setWithdrawalErrorMessage("");
         model.setBalance("$ " + atm.getCurrentAccount().getBalance());
         model.setTransactions(atm.getCurrentAccount().transactionsAsString());
+        model.setAtmCash(atm.toString());
 
         returnToAccountScreen();
     }
@@ -173,7 +174,6 @@ public class Interactor {
         cash.put(TWENTY, model.getTwenties());
         cash.put(FIFTY, model.getFifties());
         cash.put(HUNDRED, model.getHundreds());
-
 
         coins.put(PENNY, model.getPennies());
         coins.put(NICKEL, model.getNickels());
@@ -194,6 +194,7 @@ public class Interactor {
         model.setDepositErrorMessage("");
         model.setBalance("$ " + atm.getCurrentAccount().getBalance());
         model.setTransactions(atm.getCurrentAccount().transactionsAsString());
+        model.setAtmCash(atm.toString());
 
         returnToAccountScreen();
     }

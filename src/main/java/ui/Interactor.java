@@ -134,6 +134,7 @@ public class Interactor {
         cash.put(TEN, model.getTens());
         cash.put(TWENTY, model.getTwenties());
         cash.put(FIFTY, model.getFifties());
+        cash.put(HUNDRED, model.getHundreds());
 
         coins.put(PENNY, model.getPennies());
         coins.put(NICKEL, model.getNickels());
@@ -144,9 +145,11 @@ public class Interactor {
             atm.withdraw(cash, coins);
         } catch (InsufficientCashException e) {
             model.setWithdrawalErrorMessage(e.getMessage());
+            clearDepositWithdrawFields();
             return;
         } catch (SQLException e) {
             model.setWithdrawalErrorMessage("Database error when withdrawing: " + e.getMessage());
+            clearDepositWithdrawFields();
             return;
         }
 
@@ -169,6 +172,8 @@ public class Interactor {
         cash.put(TEN, model.getTens());
         cash.put(TWENTY, model.getTwenties());
         cash.put(FIFTY, model.getFifties());
+        cash.put(HUNDRED, model.getHundreds());
+
 
         coins.put(PENNY, model.getPennies());
         coins.put(NICKEL, model.getNickels());
@@ -179,6 +184,7 @@ public class Interactor {
             atm.deposit(cash, coins);
         } catch (SQLException e) {
             model.setDepositErrorMessage("Database error when withdrawing: " + e.getMessage());
+            clearDepositWithdrawFields();
             return;
         }
 

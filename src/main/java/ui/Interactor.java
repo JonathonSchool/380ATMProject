@@ -108,11 +108,13 @@ public class Interactor {
 
     public void processWithdrawButton() {
         model.setTxnSuccessMessage("");
+        model.setWithdrawalErrorMessage("");
         controller.setWithdrawScreen();
     }
 
     public void processDepositButton() {
         model.setTxnSuccessMessage("");
+        model.setDepositErrorMessage("");
         controller.setDepositScreen();
     }
 
@@ -182,7 +184,12 @@ public class Interactor {
 
         try {
             atm.deposit(cash, coins);
-        } catch (SQLException e) {
+        } catch (InsufficientCashException e) {
+            model.setDepositErrorMessage(e.getMessage());
+            clearDepositWithdrawFields();
+            return;
+        }
+        catch (SQLException e) {
             model.setDepositErrorMessage("Database error when withdrawing: " + e.getMessage());
             clearDepositWithdrawFields();
             return;

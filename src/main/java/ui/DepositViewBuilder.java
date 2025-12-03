@@ -30,7 +30,6 @@ public class DepositViewBuilder extends ViewBuilder {
         Node depositErrorMessage = boundLabel(model.depositErrorMessageProperty());
         result.setBottom(depositErrorMessage);
 
-
         BorderPane.setAlignment(heading, Pos.CENTER);
         BorderPane.setAlignment(center, Pos.CENTER);
         BorderPane.setAlignment(depositErrorMessage, Pos.CENTER);

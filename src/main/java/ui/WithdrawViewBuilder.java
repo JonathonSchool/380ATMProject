@@ -35,7 +35,7 @@ public class WithdrawViewBuilder extends ViewBuilder {
         BorderPane.setAlignment(withdrawalErrorMessage, Pos.CENTER);
 
         BorderPane.setMargin(result.getTop(), new Insets(20, 0, 0, 0));
-        BorderPane.setMargin(result.getTop(), new Insets(0, 0, 20, 0));
+        BorderPane.setMargin(result.getBottom(), new Insets(0, 0, 20, 0));
 
         return result;
     }

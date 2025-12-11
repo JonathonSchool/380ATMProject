@@ -33,7 +33,7 @@ class ATMTest {
     @Test
     void initializeMoneyFillsAtmWithCorrectAmount() {
         atm.initializeMoney();
-        assertEquals(152910, atm.totalMoneyInATM());
+        assertEquals(305820, atm.totalMoneyInATM());
     }
 
     @Test

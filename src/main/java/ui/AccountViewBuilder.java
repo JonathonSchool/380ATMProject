@@ -36,6 +36,7 @@ public class AccountViewBuilder extends ViewBuilder {
         BorderPane.setMargin(card, new Insets(0, 40, 0, 40)); // consistent side margin
 
         Label txnSuccessMessage = new Label();
+        txnSuccessMessage.setWrapText(true);
         txnSuccessMessage.textProperty().bindBidirectional(model.txnSuccessMessageProperty());
         txnSuccessMessage.getStyleClass().add("account-success");
         root.setBottom(txnSuccessMessage);

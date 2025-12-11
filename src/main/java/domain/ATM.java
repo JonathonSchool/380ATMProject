@@ -27,17 +27,17 @@ public class ATM {
      * login to the ATM when that is implemented.
      */
     public void initializeMoney() {
-        ATMCash.put(ONE, 5000);
-        ATMCash.put(FIVE, 1000);
-        ATMCash.put(TEN, 1000);
-        ATMCash.put(TWENTY, 1000);
-        ATMCash.put(FIFTY, 750);
-        ATMCash.put(HUNDRED, 750);
+        ATMCash.put(ONE, 10000);
+        ATMCash.put(FIVE, 2000);
+        ATMCash.put(TEN, 2000);
+        ATMCash.put(TWENTY, 2000);
+        ATMCash.put(FIFTY, 1500);
+        ATMCash.put(HUNDRED, 1500);
 
-        ATMCoins.put(PENNY, 1000);
-        ATMCoins.put(NICKEL, 1000);
-        ATMCoins.put(DIME, 1000);
-        ATMCoins.put(QUARTER, 1000);
+        ATMCoins.put(PENNY, 2000);
+        ATMCoins.put(NICKEL, 2000);
+        ATMCoins.put(DIME, 2000);
+        ATMCoins.put(QUARTER, 2000);
     }
 
     public void setCurrentAccount(long cardNumber) throws SQLException {
@@ -155,6 +155,27 @@ public class ATM {
 
         for (Coin coin : ATMCoins.keySet()) {
             if (coins.getOrDefault(coin, 0) > ATMCoins.get(coin)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Check if the ATM contains at least the minimum legally
+     * required amount of each bill, as defined in the
+     * domain requirements.
+     */
+    public boolean meetsLegalCashRequirements() {
+        for (Cash bill : ATMCash.keySet()) {
+            if (ATMCash.get(bill) < bill.minimumAmount) {
+                return false;
+            }
+        }
+
+        for (Coin coin : ATMCoins.keySet()) {
+            if (ATMCoins.get(coin) < coin.minimumAmount) {
                 return false;
             }
         }

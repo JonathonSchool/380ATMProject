@@ -3,6 +3,7 @@ package ui;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Controller {
 
@@ -25,6 +26,7 @@ public class Controller {
         Image icon = new Image(getClass().getResourceAsStream("/images/logo.png"));
         stage.getIcons().add(icon);
         stage.setTitle("Dominion Bank ATM");
+        stage.initStyle(StageStyle.UNDECORATED);
     }
 
     public void setInitialLoginScreen() {

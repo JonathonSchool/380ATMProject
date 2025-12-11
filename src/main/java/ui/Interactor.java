@@ -63,6 +63,10 @@ public class Interactor {
             return;
         }
 
+        if (!atm.meetsLegalCashRequirements()) {
+            return;
+        }
+
         model.setAdminErrorMessage("");
         controller.setMainLoginScreen();
     }
@@ -83,8 +87,9 @@ public class Interactor {
             loginManager.login(cardNumber, pin);
 
             model.setGreeting("Welcome to Dominion Bank,\n" + atm.getCurrentAccount().getName());
+            model.setTxnSuccessMessage("");
             model.setCardNumber(String.valueOf(atm.getCurrentAccount().getCardNumber()));
-            model.setBalance("$ " + atm.getCurrentAccount().getBalance());
+            model.setBalance(String.format("$ %.2f", atm.getCurrentAccount().getBalance()));
             model.setTransactions(atm.getCurrentAccount().transactionsAsString());
 
             if (atm.getCurrentAccount().isAdmin()) {
@@ -103,12 +108,25 @@ public class Interactor {
     public void processAdminOptionsButton() {
         model.setLoginErrorMessage("");
         model.setTxnSuccessMessage("");
+
+        if (!atm.meetsLegalCashRequirements()) {
+            model.setAdminErrorMessage("The ATM does not meet the minimum legal cash requirements. Please reset" +
+                    " the ATM's cash before reopening.");
+        }
+
         controller.setAdminScreen();
     }
 
     public void processWithdrawButton() {
         model.setTxnSuccessMessage("");
         model.setWithdrawalErrorMessage("");
+
+        if (!atm.meetsLegalCashRequirements()) {
+            model.setTxnSuccessMessage("Unfortunately, system maintenance is required before the ATM can process" +
+                    " any more withdrawals, please contact an administrator. We apologize for the inconvenience.");
+            return;
+        }
+
         controller.setWithdrawScreen();
     }
 

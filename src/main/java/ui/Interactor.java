@@ -177,7 +177,7 @@ public class Interactor {
 
         model.setTxnSuccessMessage("Withdrawal Was Successful.");
         model.setWithdrawalErrorMessage("");
-        model.setBalance("$ " + atm.getCurrentAccount().getBalance());
+        model.setBalance(String.format("$ %.2f", atm.getCurrentAccount().getBalance()));
         model.setTransactions(atm.getCurrentAccount().transactionsAsString());
         model.setAtmCash(atm.toString());
 
@@ -217,7 +217,7 @@ public class Interactor {
 
         model.setTxnSuccessMessage("Deposit Was Successful.");
         model.setDepositErrorMessage("");
-        model.setBalance("$ " + atm.getCurrentAccount().getBalance());
+        model.setBalance(String.format("$ %.2f", atm.getCurrentAccount().getBalance()));
         model.setTransactions(atm.getCurrentAccount().transactionsAsString());
         model.setAtmCash(atm.toString());
 

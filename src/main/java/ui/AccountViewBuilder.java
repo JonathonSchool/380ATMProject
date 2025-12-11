@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.scene.text.TextAlignment;
 
 public class AccountViewBuilder extends ViewBuilder {
 
@@ -37,6 +38,7 @@ public class AccountViewBuilder extends ViewBuilder {
 
         Label txnSuccessMessage = new Label();
         txnSuccessMessage.setWrapText(true);
+        txnSuccessMessage.setTextAlignment(TextAlignment.CENTER);
         txnSuccessMessage.textProperty().bindBidirectional(model.txnSuccessMessageProperty());
         txnSuccessMessage.getStyleClass().add("account-success");
         root.setBottom(txnSuccessMessage);

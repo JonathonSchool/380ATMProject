@@ -42,7 +42,7 @@ public class Account {
 
     public String transactionsAsString() {
         StringBuilder sb = new StringBuilder();
-        transactionList.forEach(txn -> sb.append(txn).append("\n"));
+        transactionList.reversed().forEach(txn -> sb.append(txn).append("\n"));
         return sb.toString();
     }
 

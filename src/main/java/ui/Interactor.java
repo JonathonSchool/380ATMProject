@@ -145,7 +145,7 @@ public class Interactor {
 
         try {
             atm.withdraw(cash, coins);
-        } catch (InsufficientCashException e) {
+        } catch (InsufficientCashException | IllegalArgumentException e) {
             model.setWithdrawalErrorMessage(e.getMessage());
             clearDepositWithdrawFields();
             return;

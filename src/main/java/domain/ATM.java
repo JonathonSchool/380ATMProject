@@ -106,6 +106,11 @@ public class ATM {
             throw new InsufficientCashException("Your account does not have enough cash to process this withdrawal.");
         }
 
+        if (amount > 5000) {
+            throw new IllegalArgumentException(String.format("You are attempting to withdraw $%.2f, but you may only" +
+                    " withdraw a maximum of $5000 in one transaction.", amount));
+        }
+
         manager.withdraw(currentAccount.getCardNumber(), amount);
         updateAccount();
 

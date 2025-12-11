@@ -15,8 +15,12 @@ class ATMTest {
     private static EnumMap<Coin, Integer> coins;
 
     @BeforeAll
-    static void setUp() {
+    static void setUpAtm() {
         atm = new ATM(new DatabaseManager());
+    }
+
+    @BeforeEach
+    void setUpMaps() {
         cash = new EnumMap<>(Cash.class);
         coins = new EnumMap<>(Coin.class);
     }

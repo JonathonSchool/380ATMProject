@@ -5,8 +5,8 @@ public enum Cash {
     FIVE(5.00, 1000),
     TEN(10.00, 1000),
     TWENTY(20.00, 1000),
-    FIFTY(50.00, 750),
-    HUNDRED(100.00, 750);
+    FIFTY(50.00, 1000),
+    HUNDRED(100.00, 1000);
 
     public final double value;
     public final int minimumAmount;
